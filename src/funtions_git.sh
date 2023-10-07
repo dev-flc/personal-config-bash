@@ -5,56 +5,55 @@
 gitcomit() {
   # Show the options available for the type with colors
   echo "Select the type of commit:"
-  echo -e "1 : ${COLORS_GREEN_LIGHT}${TYPE_FEAT}${COLORS_RESET}"
-  echo -e "2 : ${COLORS_RED_LIGHT}${TYPE_FIX}${COLORS_RESET}"
-  echo -e "3 : ${COLORS_BLUE_LIGHT}${TYPE_REFACTOR}${COLORS_RESET}"
-  echo -e "4 : ${COLORS_YELLOW_LIGHT}${TYPE_STYLE}${COLORS_RESET}"
-  echo -e "5 : ${COLORS_MAGENTA_LIGHT}${TYPE_TEST}${COLORS_RESET}"
-  echo -e "6 : ${COLORS_CYAN_LIGHT}${TYPE_DOCS}${COLORS_RESET}"
-  echo -e "7 : ${COLORS_RESET}${TYPE_EXIT}${COLORS_RESET}"
+  echo -e "1 : ${bakgrn}${TYPE_FEAT}${txtrst}"
+  echo -e "2 : ${bakred}${TYPE_FIX}${txtrst}"
+  echo -e "3 : ${bakblu}${TYPE_REFACTOR}${txtrst}"
+  echo -e "4 : ${bakylw}${TYPE_STYLE}${txtrst}"
+  echo -e "5 : ${bakpur}${TYPE_TEST}${txtrst}"
+  echo -e "6 : ${bakcyn}${TYPE_DOCS}${txtrst}"
+  echo -e "7 : ${txtrst}${TYPE_EXIT}${txtrst}"
 
   # Prompt the user to select an option
-  # echo -e "Options: { ${COLORS_GREEN}1${COLORS_RESET} , ${COLORS_RED}2${COLORS_RESET} , ${COLORS_BLUE}3${COLORS_RESET} , ${COLORS_YELLOW}4${COLORS_RESET} , ${COLORS_MAGENTA}5${COLORS_RESET} , ${COLORS_CYAN}6${COLORS_RESET}, ${COLORS_RESET}7${COLORS_RESET} }"
   read opcion_type
   # Evaluate the selected option
   case $opcion_type in
     1)
       type="${TYPE_FEAT}"
-      typeColor="${COLORS_GREEN_LIGHT}${TYPE_FEAT}${COLORS_RESET}"
+      typeColor="${bakgrn}${TYPE_FEAT}${txtrst}"
       ;;
     2)
       type="${TYPE_FIX}"
-      typeColor="${COLORS_RED_LIGHT}${TYPE_FIX}${COLORS_RESET}"
+      typeColor="${bakred}${TYPE_FIX}${txtrst}"
       ;;
     3)
       type="${TYPE_REFACTOR}"
-      typeColor="${COLORS_BLUE_LIGHT}${TYPE_REFACTOR}${COLORS_RESET}"
+      typeColor="${bakblu}${TYPE_REFACTOR}${txtrst}"
       ;;
     4)
       type="${TYPE_STYLE}"
-      typeColor="${COLORS_YELLOW_LIGHT}${TYPE_STYLE}${COLORS_RESET}"
+      typeColor="${bakylw}${TYPE_STYLE}${txtrst}"
       ;;
     5)
       type="${TYPE_TEST}"
-      typeColor="${COLORS_MAGENTA_LIGHT}${TYPE_TEST}${COLORS_RESET}"
+      typeColor="${bakpur}${TYPE_TEST}${txtrst}"
       ;;
     6)
       type="${TYPE_DOCS}"
-      typeColor="${COLORS_CYAN_LIGHT}${TYPE_DOCS}${COLORS_RESET}"
+      typeColor="${bakcyn}${TYPE_DOCS}${txtrst}"
       ;;
     7)
       type="${TYPE_EXIT}"
-      typeColor="${COLORS_RESET}${TYPE_EXIT}${COLORS_RESET}"
+      typeColor="${txtrst}${TYPE_EXIT}${txtrst}"
       return
       ;;
     *)
-      echo -e "${COLORS_RED}Opción no válida. Se establecerá el type como: ${TYPE_FEAT}.${COLORS_RESET}"
+      echo -e "${bldred}Opción no válida. Se establecerá el type como: ${TYPE_FEAT}.${txtrst}"
       type="${TYPE_FEAT}"
-      typeColor="${COLORS_GREEN_LIGHT}${TYPE_FEAT}${COLORS_RESET}"
+      typeColor="${txtgrn}${TYPE_FEAT}${txtrst}"
       ;;
   esac
 
-  echo -e "${COLORS_BLUE}{ ${COLORS_CYAN}Option ${COLORS_YELLOW}: ${COLORS_BLUE_LIGHT}{ ${COLORS_CYAN}${opcion_type} ${COLORS_YELLOW}: ${typeColor} ${COLORS_BLUE_LIGHT}} ${COLORS_BLUE}}${COLORS_RESET}"
+  echo -e "${bldblu}{ ${bldcyn} Option ${bldylw}: ${txtblu}{ ${bldcyn}${opcion_type} ${bldylw}:${txtrst} ${typeColor} ${txtblu}} ${bldblu}}${txtrst}"
 
   # Prompt user to enter scope
   echo -e "Scope (Module, File, Config) commit:"
@@ -71,14 +70,14 @@ gitcomit() {
 
 # P U S H
 gitpush() {
-  local branch
-  if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
-    if [[ "$branch" == "HEAD" ]]; then
-      branch='detached*'
-    fi
-    branch_push=$branch
-  else
-    branch_push=""
-  fi
-  git push origin $branch_push
+  #local branch
+  #if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
+  #  if [[ "$branch" == "HEAD" ]]; then
+  #    branch='detached*'
+  #  fi
+  #  branch_push=$branch
+  #else
+  #  branch_push=""
+  #fi
+  git push origin $git_branch
 }
