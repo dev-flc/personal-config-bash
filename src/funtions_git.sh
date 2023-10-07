@@ -79,5 +79,6 @@ gitpush() {
   #else
   #  branch_push=""
   #fi
+  echo "JIJIJIJI"
   git push origin $git_branch
 }
