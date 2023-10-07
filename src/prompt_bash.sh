@@ -4,7 +4,7 @@ find_git_branch() {
     if [[ "$branch" == "HEAD" ]]; then
       branch='detached*'
     fi
-    git_branch=" { ${branch} }"
+    git_branch=$branch
   else
     git_branch=""
   fi
@@ -23,7 +23,7 @@ PROMPT_COMMAND="find_git_branch; find_git_dirty; $PROMPT_COMMAND"
 
 export PS1="\${debian_chroot:+(\$debian_chroot)}\
 ${txtblu}┌─${BOLD}${txtrst}${bldred}{ ${txtrst}${BOLD}${bldylw}dev : F.L.C${txtrst}${bldred} } ${bldblu}[ ${txtrst}${txtgrn}\w${txtrst}${bldblu} ]${txtrst}${BOLD}${txtrst}\n\
-${txtblu}└──┤▶${txtrst}${bldcyn}\$git_branch\[$txtred\]\$git_dirty\[$txtrst\]\$"
+${txtblu}└──┤▶${txtrst}${bldcyn} { \$git_branch }\[$txtred\]\$git_dirty\[$txtrst\]\$"
 
 #export PS1="\${debian_chroot:+(\$debian_chroot)}\
 #\[\033[38;5;208m\]┌─\[$(tput bold)\]\[$(tput sgr0)\]\[\033[38;5;197m\]<\
