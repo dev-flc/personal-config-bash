@@ -30,6 +30,16 @@ undpur="$(tput setaf 5 2>/dev/null)$(tput smul 2>/dev/null || echo '\e[4;35m')" 
 undcyn="$(tput setaf 6 2>/dev/null)$(tput smul 2>/dev/null || echo '\e[4;36m')"  # Cyan
 undwht="$(tput setaf 7 2>/dev/null)$(tput smul 2>/dev/null || echo '\e[4;37m')"  # White
 
+# Underline Bold
+bldundblk="$(tput setaf 0 2>/dev/null)$(tput bold smul 2>/dev/null || echo '\e[4;30m')"  # Black
+bldundred="$(tput setaf 1 2>/dev/null)$(tput bold smul 2>/dev/null || echo '\e[4;31m')"  # Red
+bldundgrn="$(tput setaf 2 2>/dev/null)$(tput bold smul 2>/dev/null || echo '\e[4;32m')"  # Green
+bldundylw="$(tput setaf 3 2>/dev/null)$(tput bold smul 2>/dev/null || echo '\e[4;33m')"  # Yellow
+bldundblu="$(tput setaf 4 2>/dev/null)$(tput bold smul 2>/dev/null || echo '\e[4;34m')"  # Blue
+bldundpur="$(tput setaf 5 2>/dev/null)$(tput bold smul 2>/dev/null || echo '\e[4;35m')"  # Purple
+bldundcyn="$(tput setaf 6 2>/dev/null)$(tput bold smul 2>/dev/null || echo '\e[4;36m')"  # Cyan
+bldundwht="$(tput setaf 7 2>/dev/null)$(tput bold smul 2>/dev/null || echo '\e[4;37m')"  # White
+
 # Background
 bakblk="$(tput setab 0 2>/dev/null || echo '\e[40m')"  # Black
 bakred="$(tput setab 1 2>/dev/null || echo '\e[41m')"  # Red

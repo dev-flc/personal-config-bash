@@ -1,6 +1,6 @@
 #!/bin/bash
-NEW_NAME=".config-profile-flc"
-CURRENT_NAME=".personal_config"
+NEW_NAME=".config-profile"
+CURRENT_NAME="personal-config-bash"
 
 CURRENT_PATH=$(pwd)
 NEW_RUTE="$HOME/$NEW_NAME"
@@ -19,8 +19,8 @@ LINES_TO_ADD=(
 # The lines of code to add
 files=(
   "$HOME/.bashrc"
-  #"$HOME/.profile"
-  #"$HOME/.bash_profile"
+  "$HOME/.profile"
+  "$HOME/.bash_profile"
 )
 
 # show bar progress

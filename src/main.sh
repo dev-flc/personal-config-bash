@@ -1,5 +1,5 @@
 
-NEW_NAME=".config-profile-flc"
+NEW_NAME=".config-profile"
 
 eval $(dircolors -b $HOME/${NEW_NAME}/src/.dircolors)
 
