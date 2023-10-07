@@ -5,12 +5,12 @@ CURRENT_NAME="personal-config-bash"
 CURRENT_PATH=$(pwd)
 NEW_RUTE="$HOME/$NEW_NAME"
 
-TOTAL_STEPS=4
+TOTAL_STEPS=2
 CURRENT_STEP=0
 
 COLOR_GREEN="\033[1;32m"
 COLOR_BLUE="\033[1;34m"
-COLOR_RESET="\033[0m"
+COLOR_RESET="$(tput sgr 0 2>/dev/null || echo '\e[42m')"  # Text Reset
 
 LINES_TO_ADD=(
   "source \"$NEW_RUTE/src/main.sh\""
@@ -63,19 +63,17 @@ add_lines_to_file() {
       echo "$line" >> "$file"
     fi
   done
-  increment_step
 }
 
 # Iterate over the files and add the lines
 for file in "${files[@]}"; do
   if [ -e "$file" ]; then
-    increment_step
     add_lines_to_file "$file"
+    increment_step
+    break
   else
-    echo "El archivo $file no existe y será omitido."
+    echo "The file $file does not exist and will be ignored."
   fi
 done
-
-increment_step
 
 echo -e "${COLOR_GREEN}< S U C C E S S F U L L Y 👻 />${COLOR_RESET}"
