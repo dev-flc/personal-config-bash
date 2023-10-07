@@ -70,15 +70,5 @@ gitcomit() {
 
 # P U S H
 gitpush() {
-  #local branch
-  #if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
-  #  if [[ "$branch" == "HEAD" ]]; then
-  #    branch='detached*'
-  #  fi
-  #  branch_push=$branch
-  #else
-  #  branch_push=""
-  #fi
-  echo $git_branch
   git push origin $git_branch
 }

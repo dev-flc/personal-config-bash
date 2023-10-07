@@ -6,7 +6,7 @@ find_git_branch() {
     fi
     git_branch=$branch
   else
-    git_branch=""
+    git_branch="👽"
   fi
 }
 
