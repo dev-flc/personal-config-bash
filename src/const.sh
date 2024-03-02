@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # C O L O R S - A N S I
 
 # Regular
@@ -21,14 +23,14 @@ bldcyn="$(tput setaf 6 2>/dev/null)$(tput bold 2>/dev/null || echo '\e[1;36m')" 
 bldwht="$(tput setaf 7 2>/dev/null)$(tput bold 2>/dev/null || echo '\e[1;37m')"  # White
 
 # Underline
-undblk="$(tput setaf 0 2>/dev/null)$(tput smul 2>/dev/null || echo '\e[4;30m')"  # Black
-undred="$(tput setaf 1 2>/dev/null)$(tput smul 2>/dev/null || echo '\e[4;31m')"  # Red
-undgrn="$(tput setaf 2 2>/dev/null)$(tput smul 2>/dev/null || echo '\e[4;32m')"  # Green
-undylw="$(tput setaf 3 2>/dev/null)$(tput smul 2>/dev/null || echo '\e[4;33m')"  # Yellow
-undblu="$(tput setaf 4 2>/dev/null)$(tput smul 2>/dev/null || echo '\e[4;34m')"  # Blue
-undpur="$(tput setaf 5 2>/dev/null)$(tput smul 2>/dev/null || echo '\e[4;35m')"  # Purple
-undcyn="$(tput setaf 6 2>/dev/null)$(tput smul 2>/dev/null || echo '\e[4;36m')"  # Cyan
-undwht="$(tput setaf 7 2>/dev/null)$(tput smul 2>/dev/null || echo '\e[4;37m')"  # White
+undblk="$(tput setaf 0 2>/dev/null)$(tput smul 2>/dev/null || echo '\e[0;30m')"  # Black
+undred="$(tput setaf 1 2>/dev/null)$(tput smul 2>/dev/null || echo '\e[0;31m')"  # Red
+undgrn="$(tput setaf 2 2>/dev/null)$(tput smul 2>/dev/null || echo '\e[0;32m')"  # Green
+undylw="$(tput setaf 3 2>/dev/null)$(tput smul 2>/dev/null || echo '\e[0;33m')"  # Yellow
+undblu="$(tput setaf 4 2>/dev/null)$(tput smul 2>/dev/null || echo '\e[0;34m')"  # Blue
+undpur="$(tput setaf 5 2>/dev/null)$(tput smul 2>/dev/null || echo '\e[0;35m')"  # Purple
+undcyn="$(tput setaf 6 2>/dev/null)$(tput smul 2>/dev/null || echo '\e[0;36m')"  # Cyan
+undwht="$(tput setaf 7 2>/dev/null)$(tput smul 2>/dev/null || echo '\e[0;37m')"  # White
 
 # Underline Bold
 bldundblk="$(tput setaf 0 2>/dev/null)$(tput bold smul 2>/dev/null || echo '\e[4;30m')"  # Black
@@ -63,3 +65,6 @@ TYPE_STYLE="style"
 TYPE_TEST="test"
 TYPE_DOCS="docs"
 TYPE_EXIT="exit"
+
+# T Y P E S - I C O N S
+# ["🤖", "🐛", "👽", "🔥","🚀","🛠️","📌"]
