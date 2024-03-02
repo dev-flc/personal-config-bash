@@ -2,6 +2,39 @@
 
 # F - U - N - C - T - I - O - N - S
 
+find_git_branch() {
+  local branch
+  if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
+    if [[ "$branch" == "HEAD" ]]; then
+      echo 'detached*'
+    fi
+    echo $branch
+  else
+    echo ""
+  fi
+}
+
+# Función para verificar cambios en una rama de git
+check_git_changes() {
+    if [ $(find_git_branch) ]; then
+      local changes=$(git diff --name-only $(find_git_branch))
+      local staged=$(git diff --name-only --cached $(find_git_branch))
+      if [ -n "$staged" ]; then
+          #"Cambios en staged area:"
+          echo "🚀  "
+      elif [ -n "$changes" ]; then
+          #"Cambios detectados en la rama"
+          echo "✏️  "
+      fi
+
+      if [ -z "$changes" ] && [ -z "$staged" ]; then
+          echo ""
+      fi
+    else
+      echo ""
+    fi
+}
+
 gitcomit() {
   # Show the options available for the type with colors
   echo -e "${bldundwht}SELECT THE TYPE OF COMMIT:${txtrst}"
@@ -84,5 +117,5 @@ gitcomit() {
 
 # P U S H
 gitpush() {
-  git push origin $git_branch
+  git push origin $(find_git_branch)
 }
