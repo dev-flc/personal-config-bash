@@ -1,10 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
-NEW_NAME=".config-profile"
+promp_root="\${debian_chroot:+(\$debian_chroot)}"
+prompt_signature="${txtblu}┌─ 🤖 ${txtred}{ ${txtylw}dev ${txtred}: ${txtylw}flc${txtred} }"
+prompt_directory="${txtblu}[ ${txtrst}${undgrn}\w${txtrst}${txtblu} ]"
+prompt_branch="${txtblu}└──┤▶ ${txtgrn}\$(find_git_branch)${txtrst}"
+prompt_check_git="\$(check_git_changes)"
 
-eval $(dircolors -b $HOME/${NEW_NAME}/src/.dircolors)
-
-source "${HOME}/${NEW_NAME}/src/const.sh"
-source "${HOME}/${NEW_NAME}/src/funtions_git.sh"
-source "${HOME}/${NEW_NAME}/src/alias_bash.sh"
-source "${HOME}/${NEW_NAME}/src/prompt_bash.sh"
+export PS1="$promp_root$prompt_signature$prompt_directory\n$prompt_branch $prompt_check_git\$ "
