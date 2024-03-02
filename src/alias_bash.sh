@@ -27,5 +27,6 @@ alias projects="cd ${HOME}/Documentos/projects"
 # g  i t
 alias editgit='git config --global -e'
 alias com=gitcomit
+alias commit='npm run commit'
 alias push=gitpush
 alias status='git status'
