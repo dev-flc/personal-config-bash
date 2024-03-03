@@ -4,10 +4,10 @@
 
 find_git_branch() {
   local branch
-  if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
-    if [[ "$branch" == "HEAD" ]]; then
-      echo 'detached*'
-    fi
+  branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+  if [ "$branch" = "HEAD" ]; then
+    echo 'detached*'
+  elif [ "$branch" != "HEAD" ]; then
     echo $branch
   else
     echo ""
@@ -16,9 +16,10 @@ find_git_branch() {
 
 # Función para verificar cambios en una rama de git
 check_git_changes() {
-    if [ $(find_git_branch) ]; then
-      local changes=$(git diff --name-only $(find_git_branch))
-      local staged=$(git diff --name-only --cached $(find_git_branch))
+    local branch=$(find_git_branch)
+    if [ -n "$branch" ]; then
+      local changes=$(git diff --name-only "$branch")
+      local staged=$(git diff --name-only --cached "$branch")
       if [ -n "$staged" ]; then
           #"Cambios en staged area:"
           echo "🚀  "
@@ -46,7 +47,7 @@ gitcomit() {
   echo -e "   ${bldblu}{ ${bldcyn} 4 ${bldylw}: ${txtrst}${bakylw} ${TYPE_STYLE} ${txtrst} ${bldblu}}${txtrst}"
   echo -e "   ${bldblu}{ ${bldcyn} 5 ${bldylw}: ${txtrst}${bakpur} ${TYPE_TEST} ${txtrst} ${bldblu}}${txtrst}"
   echo -e "   ${bldblu}{ ${bldcyn} 6 ${bldylw}: ${txtrst}${bakcyn} ${TYPE_DOCS} ${txtrst} ${bldblu}}${txtrst}"
-  echo -e "   ${bldblu}{ ${bldcyn} 7 ${bldylw}: ${txtrst}${txtrst} ${TYPE_EXIT} ${txtrst} ${bldblu}}${txtrst}"
+  echo -e "   ${bldblu}{ ${bldcyn} 7 ${bldylw}: ${txtrst}${bldblk} ${TYPE_EXIT} ${txtrst} ${bldblu}}${txtrst}"
   echo -e "${bldblu}}${txtrst}"
 
   # Prompt the user to select an option
@@ -117,5 +118,8 @@ gitcomit() {
 
 # P U S H
 gitpush() {
-  git push origin $(find_git_branch)
+  local branch=$(find_git_branch)
+  if [ -n "$branch" ]; then
+    git push origin "$branch"
+  fi
 }
