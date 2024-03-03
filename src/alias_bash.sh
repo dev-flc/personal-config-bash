@@ -13,7 +13,7 @@ alias l='ls -CF'
 
 # B A S H
 alias reload='source ~/.bashrc'
-alias editbash='code ~/.bashrc'
+alias configbash='code ~/.bashrc'
 alias suspend='systemctl suspend'
 
 # N P M
@@ -25,7 +25,7 @@ alias build="npm run build"
 alias projects="cd ${HOME}/Documentos/projects"
 
 # g  i t
-alias editgit='git config --global -e'
+alias configgit='git config --global -e'
 alias commit=gitcomit
 alias com='npm run commit'
 alias push=gitpush
