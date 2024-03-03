@@ -4,32 +4,82 @@
 
 find_git_branch() {
   local branch
-  branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
-  if [ "$branch" = "HEAD" ]; then
-    echo 'detached*'
-  elif [ "$branch" != "HEAD" ]; then
-    echo $branch
+  branch=$(git branch --show-current 2>/dev/null | sed 's/\*//')
+  if [ "$branch" ]; then
+    echo "$branch"
   else
     echo ""
   fi
 }
 
+#find_git_branch() {
+#  local branch
+#  branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+#  if [ "$branch" = "HEAD" ]; then
+#    echo 'detached*'
+#  elif [ "$branch" != "HEAD" ]; then
+#    echo $branch
+#  else
+#    echo ""
+#  fi
+#}
+
+# git diff --quiet --exit-code --name-only "$branch"; then
+# git diff --cached --quiet --exit-code --name-only "$branch"; then
+
 # Función para verificar cambios en una rama de git
+# check_git_changes() {
+#     local branch=$(find_git_branch)
+#     if [ -n "$branch" ]; then
+#       local changes=$(git diff --name-only "$branch")
+#       local staged=$(git diff --name-only --cached "$branch")
+#       local status=$(git status --porcelain 2> /dev/null)
+#       if [ -n "$staged" ]; then
+#           #"Cambios en staged area:"
+#           echo "🚀"
+#       elif [ -n "$changes" ]; then
+#           #"Cambios detectados en la rama"
+#           echo "✏️"
+#       fi
+#
+#       if [ -z "$changes" ] && [ -z "$staged" ]; then
+#           echo ""
+#       fi
+#     else
+#       echo ""
+#     fi
+# }
+
 check_git_changes() {
     local branch=$(find_git_branch)
     if [ -n "$branch" ]; then
-      local changes=$(git diff --name-only "$branch")
-      local staged=$(git diff --name-only --cached "$branch")
-      if [ -n "$staged" ]; then
-          #"Cambios en staged area:"
-          echo "🚀  "
-      elif [ -n "$changes" ]; then
-          #"Cambios detectados en la rama"
-          echo "✏️  "
-      fi
+      # Obtener el estado del repositorio en un formato por líneas
+      local status=$(git status --porcelain 2> /dev/null)
 
-      if [ -z "$changes" ] && [ -z "$staged" ]; then
-          echo ""
+      # Variables para indicar el estado
+      changes_to_commit=false
+      changes_not_staged=false
+
+      # Iterar sobre cada línea del estado
+      while IFS= read -r line; do
+          # Verificar si la línea indica cambios que están listos para ser comprometidos
+          if [[ $line == "A"* || $line == "M"* || $line == "R"* || $line == "C"* || $line == "U"* || $line == "D"* || $line == "?"* ]]; then
+              changes_to_commit=true
+              # Si encontramos un cambio que está listo para ser comprometido, salimos del bucle
+              break
+          # Verificar si la línea indica cambios que no están preparados para ser comprometidos
+          elif [[ $line == " "* ]]; then
+              changes_not_staged=true
+          fi
+      done <<< "$status"
+
+      # Imprimir el resultado
+      if [ "$changes_to_commit" = true ]; then
+          echo "🚀"
+      elif [ "$changes_not_staged" = true ]; then
+          echo "✏️"
+      else
+        echo ""
       fi
     else
       echo ""
@@ -110,8 +160,7 @@ gitcomit() {
   echo -e "${bldundwht}DESCRIPTION COMMIT:${txtrst}"
 
   read description
-
-  echo -e "git add . && git commit -m '${type}(${scope}): ${description}'"
+  echo -e "${bldblu}git commit -m '${type}(${scope}): ${description}'${txtrst}"
 
   git add . && git commit -m "${type}(${scope}): ${description}"
 }
