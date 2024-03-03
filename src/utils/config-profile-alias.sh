@@ -30,3 +30,4 @@ alias commit=gitcomit
 alias com='npm run commit'
 alias push=gitpush
 alias status='git status'
+alias add='git add .'
