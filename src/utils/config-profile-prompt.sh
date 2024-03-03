@@ -12,8 +12,10 @@ update_prompt() {
   fi
 
   if [ -n "$prompt_branch" ] || [ -n "$prompt_check_git" ]; then
-    PS1="$promp_root${BOLD}$prompt_signature$prompt_directory\n${BOLD}$prompt_arrow$prompt_branch$prompt_check_git${txtrst} \$ "
+    echo "one"
+    PS1="$promp_root${BOLD}$prompt_signature$prompt_directory\n${BOLD}$prompt_arrow$prompt_branch$prompt_check_git${txtrst}  \$ "
   else
+    echo "two"
     PS1="$promp_root${BOLD}$prompt_signature$prompt_directory\n${BOLD}$prompt_arrow${txtrst}\$ "
   fi
 }
