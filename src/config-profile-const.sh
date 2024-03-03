@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# T Y P E S - I C O N S
+# ["🤖", "🐛", "👽", "🔥","🚀","🛠️","📌"]
+
 # C O L O R S - A N S I
 
 # Regular
@@ -65,6 +68,3 @@ TYPE_STYLE="style"
 TYPE_TEST="test"
 TYPE_DOCS="docs"
 TYPE_EXIT="exit"
-
-# T Y P E S - I C O N S
-# ["🤖", "🐛", "👽", "🔥","🚀","🛠️","📌"]
