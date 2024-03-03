@@ -6,10 +6,10 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 
-alias ll='ls -al'
-alias ll='ls -alF'
-alias la='ls -A'
+# L I S - F I L E S
 alias l='ls -CF'
+alias ll='ls -al'
+alias la='ls -A'
 
 # B A S H
 alias reload='source ~/.bashrc'
@@ -21,10 +21,10 @@ alias dev='npm run dev'
 alias start="npm start"
 alias build="npm run build"
 
-## d i r e c t o r y ##
+# D I R E C T O R Y
 alias projects="cd ${HOME}/Documentos/projects"
 
-# g  i t
+# G I T
 alias configgit='git config --global -e'
 alias commit=gitcomit
 alias com='npm run commit'
