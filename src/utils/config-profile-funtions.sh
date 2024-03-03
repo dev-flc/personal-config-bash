@@ -77,7 +77,7 @@ check_git_changes() {
       if [ "$changes_to_commit" = true ]; then
           echo "🚀"
       elif [ "$changes_not_staged" = true ]; then
-          echo "✏️"
+          echo "🔥"
       else
         echo ""
       fi

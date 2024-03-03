@@ -3,20 +3,26 @@
 # Función que actualiza las variables del prompt
 update_prompt() {
   local branch=$(find_git_branch)
+
   if [ -n "$branch" ]; then
-    prompt_branch="${txtgrn}${branch} "
-    prompt_check_git="\$(check_git_changes)"
+    prompt_branch="${txtgrn}${branch}"
+
+    local check_changes=$(check_git_changes)
+    if [ -n "$check_changes" ]; then
+      prompt_check_git="$check_changes"
+    else
+      prompt_check_git=""
+    fi
   else
     prompt_branch=""
-    prompt_check_git="🐛"
   fi
 
-  if [ -n "$prompt_branch" ] || [ -n "$prompt_check_git" ]; then
-    echo "one"
-    PS1="$promp_root${BOLD}$prompt_signature$prompt_directory\n${BOLD}$prompt_arrow$prompt_branch$prompt_check_git${txtrst}  \$ "
+  if [ -n "$prompt_branch" ] && [ -n "$prompt_check_git" ]; then
+    PS1="$promp_root${BOLD}$prompt_signature$prompt_directory\n${BOLD}$prompt_arrow$prompt_branch $prompt_check_git${txtrst} \$"
+  elif [ -n "$prompt_branch" ]; then
+    PS1="$promp_root${BOLD}$prompt_signature$prompt_directory\n${BOLD}$prompt_arrow$prompt_branch${txtrst} \$"
   else
-    echo "two"
-    PS1="$promp_root${BOLD}$prompt_signature$prompt_directory\n${BOLD}$prompt_arrow${txtrst}\$ "
+    PS1="$promp_root${BOLD}$prompt_signature$prompt_directory\n${BOLD}$prompt_arrow${txtrst}\$"
   fi
 }
 
