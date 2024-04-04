@@ -1,5 +1,5 @@
 #!/bin/sh
-
+echo "sdsddss"
 # S Y S T E M
 alias ..='cd ..'
 alias ...='cd ../..'
