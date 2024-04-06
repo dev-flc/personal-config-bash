@@ -13,15 +13,19 @@ alias la='ls -A'
 # B A S H
 alias reload='source ~/.bashrc'
 alias configbash='code ~/.bashrc'
+alias configbashwin='code /etc/bash.bashrc'
 alias suspend='systemctl suspend'
 
 # N P M
 alias dev='npm run dev'
+alias devwin='npm run dev:win'
 alias start="npm start"
 alias build="npm run build"
+alias buildwin="npm run build:win"
 
 # D I R E C T O R Y
 alias projects="cd ${HOME}/Documentos/projects"
+alias projectswin="cd ${HOME}/Documents/projects"
 
 # G I T
 alias configgit='git config --global -e'

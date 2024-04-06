@@ -1,6 +1,6 @@
 customize_shell_config() {
 
-  local OH_MY_POSH=$1
+  local NAME_USER="$1"
   local NEW_NAME=".dev-flc"
   local CURRENT_NAME="personal-config-bash"
   local CURRENT_PATH=$(pwd)
@@ -8,26 +8,24 @@ customize_shell_config() {
   local COLOR_GREEN="\e[0;32m"
   local COLOR_YELLOW="\033[1;34m"
   local COLOR_RESET="$(tput sgr 0 2>/dev/null || echo '\e[42m')"
-  local TOTAL_STEPS=5  # Número total de pasos
-  local CURRENT_STEP=0  # Inicializamos el contador de pasos actual
-
-
+  local FILE_THEME="$NEW_RUTE/src/theme/dev-flc.omp.json"
+  local TOTAL_STEPS=5
+  local CURRENT_STEP=0
   local LINES_TO_ADD=(
-   "eval \"\$(oh-my-posh init bash --config $NEW_RUTE/src/theme/dev-flc.omp.json)\""
+    "eval \"\$(oh-my-posh init bash --config $FILE_THEME)\""
     "source \"$NEW_RUTE/src/main.sh\""
   )
 
-    # Función para mostrar el porcentaje de avance
   show_progress() {
     ((CURRENT_STEP++))
     local percentage=$((CURRENT_STEP * 100 / TOTAL_STEPS))
-    local progress_bar_length=$((percentage / 2))  # Longitud de la barra de progreso
+    local progress_bar_length=$((percentage / 2))
     local progress_bar=""
     for ((i = 0; i < progress_bar_length; i++)); do
-        progress_bar+="▓"  # Carácter de progreso
+        progress_bar+="▓"
     done
     for ((i = progress_bar_length; i < 50; i++)); do
-        progress_bar+="░"  # Carácter de espacio en blanco
+        progress_bar+="░"
     done
     echo -en "\r\033[K"
     echo -n -e "${COLOR_GREEN}Install : ${COLOR_YELLOW}${progress_bar} ${COLOR_GREEN}$percentage%${COLOR_RESET}"
@@ -35,14 +33,11 @@ customize_shell_config() {
 
   show_progress
 
-
-  if ! $OH_MY_POSH; then
-    # Si oh-my-posh no está instalado, omitir la línea de inicialización
+  if ! command -v oh-my-posh &> /dev/null; then
     LINES_TO_ADD=("source \"$NEW_RUTE/src/main.sh\"")
+    echo "oh-my-posh not found. Skipping oh-my-posh initialization."
   fi
 
-
-  # Definir FILES según OSTYPE
   if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     local FILES=(
       "$HOME/.bashrc"
@@ -58,13 +53,10 @@ customize_shell_config() {
     return 1
   fi
 
-  # Función para agregar las líneas al final del archivo con un salto de línea
   add_lines_to_file() {
     local file="$1"
     for line in "${LINES_TO_ADD[@]}"; do
-      # Agregar la línea al final del archivo solo si aún no existe
       if ! grep -qF "$line" "$file"; then
-        # Agregar un salto de línea si el archivo no está vacío
         if [ -s "$file" ]; then
           echo >> "$file"
         fi
@@ -73,15 +65,9 @@ customize_shell_config() {
     done
   }
 
-
-
-  # Mostrar progreso inicial
   show_progress
 
-  # Comprobar si la carpeta actual existe
   if [ -d "$CURRENT_PATH" ]; then
-    # Eliminar el directorio existente y copiar archivos a la nueva ubicación
-    show_progress  # Mostrar progreso después de completar un paso
     rm -rf "$NEW_RUTE"
     mkdir -p "$NEW_RUTE/src"
     cp -r "$CURRENT_PATH/src" "$NEW_RUTE"
@@ -92,8 +78,7 @@ customize_shell_config() {
     return 1
   fi
 
-  # Iterar sobre los archivos y agregar las líneas
-  show_progress  # Mostrar progreso después de completar otro paso
+  show_progress
   for file in "${FILES[@]}"; do
     if [ -e "$file" ]; then
       add_lines_to_file "$file"
@@ -103,14 +88,24 @@ customize_shell_config() {
     fi
   done
 
-  show_progress  # Mostrar progreso después de completar otro paso
+  show_progress
+
+  contenido=$(cat "$FILE_THEME")
+  nuevo_contenido=$(echo "$contenido" | sed -E 's/"template": "(\$USERNAME)"/"template": "'"$NAME_USER "'"/g')
+  echo "$nuevo_contenido" > "$FILE_THEME"
+
+  show_progress
+
   echo -e "\n${COLOR_GREEN}{ I N S T A L L : S U C C E S S F U L L Y 👻 }${COLOR_RESET}"
 }
 
-apply_install_oh_my_posh=true
-if ! command -v oh-my-posh &> /dev/null; then
-  apply_install_oh_my_posh=false
-  echo "oh-my-posh not found. Skipping oh-my-posh initialization."
+read -p "Do you want to create a custom user? (Y/N):" appy_user
+if [ "$appy_user" == "Y" ] || [ "$appy_user" == "y" ]; then
+  read -p "Username : " username
+  customize_shell_config "$username"
+elif [ "$appy_user" == "N" ] || [ "$appy_user" == "n" ]; then
+  customize_shell_config "{{ .UserName }}"
+else
+    echo "Invalid option. Select Y or N."
 fi
 
-customize_shell_config "$apply_install_oh_my_posh"
