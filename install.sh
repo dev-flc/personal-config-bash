@@ -1,5 +1,6 @@
-customize_shell_config() {
+#!/bin/bash
 
+customize_shell_config() {
   local NAME_USER="$1"
   local NEW_NAME=".dev-flc"
   local CURRENT_NAME="personal-config-bash"
@@ -99,13 +100,14 @@ customize_shell_config() {
   echo -e "\n${COLOR_GREEN}{ I N S T A L L : S U C C E S S F U L L Y 👻 }${COLOR_RESET}"
 }
 
+
+
 read -p "Do you want to create a custom user? (Y/N):" appy_user
-if [ "$appy_user" == "Y" ] || [ "$appy_user" == "y" ]; then
+if [ "$appy_user" = "Y" ] || [ "$appy_user" = "y" ]; then
   read -p "Username : " username
   customize_shell_config "$username"
-elif [ "$appy_user" == "N" ] || [ "$appy_user" == "n" ]; then
+elif [ "$appy_user" = "N" ] || [ "$appy_user" = "n" ]; then
   customize_shell_config "{{ .UserName }}"
 else
-    echo "Invalid option. Select Y or N."
+  echo "Invalid option. Select Y or N."
 fi
-

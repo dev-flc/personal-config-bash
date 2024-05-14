@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+
 # S Y S T E M
 alias ..='cd ..'
 alias ...='cd ../..'

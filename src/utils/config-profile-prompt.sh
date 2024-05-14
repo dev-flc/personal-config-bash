@@ -31,7 +31,7 @@ PROMPT_COMMAND=update_prompt
 
 # V A R
 promp_root="\${debian_chroot:+(\$debian_chroot)}"
-prompt_signature="${txtblu}┌─ 🤖 ${txtred}{ ${txtylw}dev ${txtred}: ${txtylw}flc${txtred} }"
+prompt_signature="${txtblu}┌─ 🤖 ${txtred}{ ${txtylw}dev ${txtred}: ${txtylw}F.L.C${txtred} }"
 prompt_directory="${txtblu}[ ${txtrst}${undgrn}\w${txtrst}${txtblu} ]"
 prompt_arrow="${txtblu}└──┤▶ "
 
