@@ -88,16 +88,16 @@ check_git_changes() {
 
 gitcomit() {
   # Show the options available for the type with colors
-  echo -e "${bldundwht}SELECT THE TYPE OF COMMIT:${txtrst}"
+  echo -e "${bldcyn}SELECT THE TYPE OF COMMIT:${txtrst}"
 
   echo -e "${bldblu}{${txtrst}"
-  echo -e "   ${bldblu}{ ${bldcyn} 1 ${bldylw}: ${txtrst}${bakgrn} ${TYPE_FEAT} ${txtrst} ${bldblu}}${txtrst}"
-  echo -e "   ${bldblu}{ ${bldcyn} 2 ${bldylw}: ${txtrst}${bakred} ${TYPE_FIX} ${txtrst} ${bldblu}}${txtrst}"
-  echo -e "   ${bldblu}{ ${bldcyn} 3 ${bldylw}: ${txtrst}${bakblu} ${TYPE_REFACTOR} ${txtrst} ${bldblu}}${txtrst}"
-  echo -e "   ${bldblu}{ ${bldcyn} 4 ${bldylw}: ${txtrst}${bakylw} ${TYPE_STYLE} ${txtrst} ${bldblu}}${txtrst}"
-  echo -e "   ${bldblu}{ ${bldcyn} 5 ${bldylw}: ${txtrst}${bakpur} ${TYPE_TEST} ${txtrst} ${bldblu}}${txtrst}"
-  echo -e "   ${bldblu}{ ${bldcyn} 6 ${bldylw}: ${txtrst}${bakcyn} ${TYPE_DOCS} ${txtrst} ${bldblu}}${txtrst}"
-  echo -e "   ${bldblu}{ ${bldcyn} 7 ${bldylw}: ${txtrst}${bldblk} ${TYPE_EXIT} ${txtrst} ${bldblu}}${txtrst}"
+  echo -e "   ${bldblu}{ ${bldcyn} 1 ${bldylw}: ${txtrst} 🎸 ${TYPE_FEAT} ${txtrst} ${bldblu}}${txtrst}"
+  echo -e "   ${bldblu}{ ${bldcyn} 2 ${bldylw}: ${txtrst} 🐛 ${TYPE_FIX} ${txtrst} ${bldblu}}${txtrst}"
+  echo -e "   ${bldblu}{ ${bldcyn} 3 ${bldylw}: ${txtrst} 💡 ${TYPE_REFACTOR} ${txtrst} ${bldblu}}${txtrst}"
+  echo -e "   ${bldblu}{ ${bldcyn} 4 ${bldylw}: ${txtrst} 💄 ${TYPE_STYLE} ${txtrst} ${bldblu}}${txtrst}"
+  echo -e "   ${bldblu}{ ${bldcyn} 5 ${bldylw}: ${txtrst} 💍 ${TYPE_TEST} ${txtrst} ${bldblu}}${txtrst}"
+  echo -e "   ${bldblu}{ ${bldcyn} 6 ${bldylw}: ${txtrst} ✏️  ${TYPE_DOCS} ${txtrst} ${bldblu}}${txtrst}"
+  echo -e "   ${bldblu}{ ${bldcyn} 7 ${bldylw}: ${txtrst} 🏹 ${TYPE_EXIT} ${txtrst} ${bldblu}}${txtrst}"
   echo -e "${bldblu}}${txtrst}"
 
   # Prompt the user to select an option
@@ -107,43 +107,51 @@ gitcomit() {
   case $opcion_type in
     1)
       type="${TYPE_FEAT}"
-      typeColor="${bakgrn} ${TYPE_FEAT} ${txtrst}"
+      icon="🎸"
+      typeColor="${icon} ${TYPE_FEAT} ${txtrst}"
       selected_option="${opcion_type}"
       ;;
     2)
       type="${TYPE_FIX}"
-      typeColor="${bakred} ${TYPE_FIX} ${txtrst}"
-    selected_option="${opcion_type}"
+      icon="🐛"
+      typeColor="${icon} ${TYPE_FIX} ${txtrst}"
+      selected_option="${opcion_type}"
       ;;
     3)
       type="${TYPE_REFACTOR}"
-      typeColor="${bakblu} ${TYPE_REFACTOR} ${txtrst}"
+      icon="💡"
+      typeColor="${icon} ${TYPE_REFACTOR} ${txtrst}"
       selected_option="${opcion_type}"
       ;;
     4)
       type="${TYPE_STYLE}"
-      typeColor="${bakylw} ${TYPE_STYLE} ${txtrst}"
+      icon="💄"
+      typeColor="${icon} ${TYPE_STYLE} ${txtrst}"
       selected_option="${opcion_type}"
       ;;
     5)
       type="${TYPE_TEST}"
-      typeColor="${bakpur} ${TYPE_TEST} ${txtrst}"
+      icon="💍"
+      typeColor="${icon} ${TYPE_TEST} ${txtrst}"
       selected_option="${opcion_type}"
       ;;
     6)
       type="${TYPE_DOCS}"
-      typeColor="${bakcyn} ${TYPE_DOCS} ${txtrst}"
+      icon="✏️"
+      typeColor="${icon} ${TYPE_DOCS} ${txtrst}"
       selected_option="${opcion_type}"
       ;;
     7)
       type="${TYPE_EXIT}"
-      typeColor="${txtrst} ${TYPE_EXIT} ${txtrst}"
+      icon="$"
+      typeColor="${icon} ${txtrst} ${TYPE_EXIT} ${txtrst}"
       selected_option="${opcion_type}"
       return
       ;;
     *)
       type="${TYPE_FEAT}"
-      typeColor="${bakgrn} ${TYPE_FEAT} ${txtrst}"
+      icon="🎸"
+      typeColor="${icon} ${TYPE_FEAT} ${txtrst}"
       selected_option="default"
       echo -e "${bldred}Invalid option. The type will be set as : ${txtrst}${typeColor}.${txtrst}"
       ;;
@@ -152,17 +160,18 @@ gitcomit() {
   echo -e "${bldblu}{ ${bldcyn} Option ${bldylw}: ${txtblu}{ ${bldcyn}${selected_option} ${bldylw}:${txtrst} ${typeColor} ${txtblu}} ${bldblu}}${txtrst}"
 
   # Prompt user to enter scope
-  echo -e "${bldundwht}SCOPE [ MODULE, FILE, CONFIG ] COMMIT:${txtrst}"
+  echo -e "${bldcyn}SCOPE [ MODULE, FILE, CONFIG ] COMMIT:${txtrst}"
 
   read scope
 
   # Prompt user to enter description
-  echo -e "${bldundwht}DESCRIPTION COMMIT:${txtrst}"
+  echo -e "${bldcyn}DESCRIPTION COMMIT:${txtrst}"
 
   read description
-  echo -e "${bldblu}git commit -m '${type}(${scope}): ${description}'${txtrst}"
 
-  git add . && git commit -m "${type}(${scope}): ${description}"
+  echo -e "${bldgrn}git commit -m '${type}(${scope}): ${icon}${description}'${txtrst}"
+
+  git add . && git commit -m "${type}(${scope}): ${icon}${description}"
 }
 
 # P U S H
@@ -171,4 +180,46 @@ gitpush() {
   if [ -n "$branch" ]; then
     git push origin "$branch"
   fi
+}
+
+
+# D O C K E R
+
+dockerbuild() {
+  read -p "Enter the name of the image: " name
+  name=${name:-"docker-image"}
+
+  read -p "Enter the version of the image: " version
+  version=${version:-"1.0.0"}
+
+  newname="gcr.io/gnp-sica/${name}:v${version}"
+  echo "Building the image with the name: $newname"
+
+  docker build -t $newname .
+}
+
+dockerrun() {
+  read -p "Enter the name of the image: " name
+  name=${name:-"docker-image"}
+
+  read -p "Enter the version of the image: " version
+  version=${version:-"1.0.0"}
+
+  newname="gcr.io/gnp-sica/${name}:v${version}"
+  echo "Building the image with the name: $newname"
+
+  docker run -p 8080:8080 $newname
+}
+
+dockerpush() {
+  read -p "Enter the name of the image: " name
+  name=${name:-"docker-image"}
+
+  read -p "Enter the version of the image: " version
+  version=${version:-"1.0.0"}
+
+  newname="gcr.io/gnp-sica/${name}:v${version}"
+  echo "Building the image with the name: $newname"
+
+  docker push $name
 }
