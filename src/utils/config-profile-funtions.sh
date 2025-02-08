@@ -87,92 +87,55 @@ check_git_changes() {
 }
 
 gitcomit() {
-  # Show the options available for the type with colors
-  echo -e "${bldcyn}SELECT THE TYPE OF COMMIT:${txtrst}"
+  # ========= Imprimiendo objeto de opciones ==========
 
-  echo -e "${bldblu}{${txtrst}"
-  echo -e "   ${bldblu}{ ${bldcyn} 1 ${bldylw}: ${txtrst} 🎸 ${TYPE_FEAT} ${txtrst} ${bldblu}}${txtrst}"
-  echo -e "   ${bldblu}{ ${bldcyn} 2 ${bldylw}: ${txtrst} 🐛 ${TYPE_FIX} ${txtrst} ${bldblu}}${txtrst}"
-  echo -e "   ${bldblu}{ ${bldcyn} 3 ${bldylw}: ${txtrst} 💡 ${TYPE_REFACTOR} ${txtrst} ${bldblu}}${txtrst}"
-  echo -e "   ${bldblu}{ ${bldcyn} 4 ${bldylw}: ${txtrst} 💄 ${TYPE_STYLE} ${txtrst} ${bldblu}}${txtrst}"
-  echo -e "   ${bldblu}{ ${bldcyn} 5 ${bldylw}: ${txtrst} 💍 ${TYPE_TEST} ${txtrst} ${bldblu}}${txtrst}"
-  echo -e "   ${bldblu}{ ${bldcyn} 6 ${bldylw}: ${txtrst} ✏️  ${TYPE_DOCS} ${txtrst} ${bldblu}}${txtrst}"
-  echo -e "   ${bldblu}{ ${bldcyn} 7 ${bldylw}: ${txtrst} 🏹 ${TYPE_EXIT} ${txtrst} ${bldblu}}${txtrst}"
-  echo -e "${bldblu}}${txtrst}"
+  keys=("1" "2" "3" "4" "5" "6" "7")
+  values=("🎸 feat" "🐛 fix" "💡 refactor" "💄 style" "💍 test" "✏️ docs" "🏹 exit")
+	_array_as_json_colors keys values
 
-  # Prompt the user to select an option
+  printf "$(_generate_message 2 '🍻 SELECT THE TYPE OF COMMIT: ')"
   read opcion_type
-  local selected_option
-  # Evaluate the selected option
-  case $opcion_type in
-    1)
-      type="${TYPE_FEAT}"
-      icon="🎸"
-      typeColor="${icon} ${TYPE_FEAT} ${txtrst}"
-      selected_option="${opcion_type}"
-      ;;
-    2)
-      type="${TYPE_FIX}"
-      icon="🐛"
-      typeColor="${icon} ${TYPE_FIX} ${txtrst}"
-      selected_option="${opcion_type}"
-      ;;
-    3)
-      type="${TYPE_REFACTOR}"
-      icon="💡"
-      typeColor="${icon} ${TYPE_REFACTOR} ${txtrst}"
-      selected_option="${opcion_type}"
-      ;;
-    4)
-      type="${TYPE_STYLE}"
-      icon="💄"
-      typeColor="${icon} ${TYPE_STYLE} ${txtrst}"
-      selected_option="${opcion_type}"
-      ;;
-    5)
-      type="${TYPE_TEST}"
-      icon="💍"
-      typeColor="${icon} ${TYPE_TEST} ${txtrst}"
-      selected_option="${opcion_type}"
-      ;;
-    6)
-      type="${TYPE_DOCS}"
-      icon="✏️"
-      typeColor="${icon} ${TYPE_DOCS} ${txtrst}"
-      selected_option="${opcion_type}"
-      ;;
-    7)
-      type="${TYPE_EXIT}"
-      icon="$"
-      typeColor="${icon} ${txtrst} ${TYPE_EXIT} ${txtrst}"
-      selected_option="${opcion_type}"
+  # ========= Verificar si el valor es igual a "7" o no está en el arreglo ==========
+  if [[ "$opcion_type" == "7" ]]; then
+      echo "$(_generate_message 3 'Bye... 😉')"
       return
-      ;;
-    *)
-      type="${TYPE_FEAT}"
-      icon="🎸"
-      typeColor="${icon} ${TYPE_FEAT} ${txtrst}"
-      selected_option="default"
-      echo -e "${bldred}Invalid option. The type will be set as : ${txtrst}${typeColor}.${txtrst}"
-      ;;
-  esac
+  elif [[ ! " ${keys[*]} " =~ " ${opcion_type} " ]]; then
+      echo "$(_generate_message 3 'Invalid option. 🤮')"
+      return
+  else
+    # ========= Imprimiendo objeto de opcion seleccionada ==========
+    local opcion_value="${values["${opcion_type}"]}"
+    opcion_type_keys=("${opcion_type}")
+    opcion_type_values=("${opcion_value}")
+    _array_as_json_colors opcion_type_keys opcion_type_values
 
-  echo -e "${bldblu}{ ${bldcyn} Option ${bldylw}: ${txtblu}{ ${bldcyn}${selected_option} ${bldylw}:${txtrst} ${typeColor} ${txtblu}} ${bldblu}}${txtrst}"
+    # ========= Imprimiendo Scope del commit ==========
+    printf "$(_generate_message 2 '📌 SCOPE [ MODULE, FILE, CONFIG ] COMMIT: ')"
+    read scope
+    scope_keys=("SCOPE")
+    scope_values=("${scope}")
+    _array_as_json_colors scope_keys scope_values
 
-  # Prompt user to enter scope
-  echo -e "${bldcyn}SCOPE [ MODULE, FILE, CONFIG ] COMMIT:${txtrst}"
+    # ========= Imprimiendo descripcion del commit ==========
+    printf "$(_generate_message 2 '📕 DESCRIPTION COMMIT: ')"
+    read description
+    description_keys=("DESCRIPTION")
+    description_values=("${description}")
+    _array_as_json_colors description_keys description_values
 
-  read scope
+    # ========= Imprimiendo el commit completo ==========
+    echo "$(_generate_message 2 '🚀 COMMAND')"
+    IFS=' ' read -r icon type <<< "$opcion_value"
+    description_commit="${type}(${scope}):${icon}_${description}"
+    command_keys=("COMMAND")
+    command_values=("git commit -m '${description_commit}'")
+    _array_as_json_colors command_keys command_values
 
-  # Prompt user to enter description
-  echo -e "${bldcyn}DESCRIPTION COMMIT:${txtrst}"
-
-  read description
-
-  echo -e "${bldgrn}git commit -m '${type}(${scope}): ${icon}${description}'${txtrst}"
-
-  git add . && git commit -m "${type}(${scope}): ${icon}${description}"
+    # ========= ejecutando el comando ==========
+    git add . && git commit -m "${description_commit}"
+  fi
 }
+
 
 # P U S H
 gitpush() {
@@ -222,4 +185,103 @@ dockerpush() {
   echo "Building the image with the name: $newname"
 
   docker push $name
+}
+
+# Función para convertir un arreglo a JSON coloreado
+_array_as_json_colors() {
+    local -n keys_ref="$1"    # Referencia al array de claves
+    local -n values_ref="$2"  # Referencia al array de valores
+    local json=""
+
+    # Definir colores ANSI
+    local txtylw='\e[1;33m'
+    local bldblu='\e[1;34m'
+    local txtgrn='\e[1;32m'
+    local txtrst='\e[0m'
+
+    # Imprimir apertura de JSON
+    printf "${txtylw}{${txtrst}\n"
+
+    # Construcción del JSON
+    for i in "${!keys_ref[@]}"; do
+        printf "  ${bldblu}\"%s\"${txtrst}: ${txtgrn}\"%s\"${txtrst}" "${keys_ref[$i]}" "${values_ref[$i]}"
+        # Agregar coma si no es el último elemento
+        [[ $i -lt $((${#keys_ref[@]} - 1)) ]] && printf ","
+        printf "\n"
+    done
+
+    # Cierre de JSON
+    printf "${txtylw}}${txtrst}\n"
+}
+
+
+# Función para generar dos tipos de mensajes
+_generate_message() {
+    local message_type="$1"  # Primer argumento: tipo de mensaje (1 o 2)
+    local message="$2"       # Segundo argumento: texto del mensaje
+	printf "\n"
+
+    if [ "$message_type" -eq 1 ]; then
+		printf "${bldblu}========== ${bakblu}$message${txtrst} ${bldblu}========== ${txtrst}"
+    elif [ "$message_type" -eq 2 ]; then
+        printf "${txtylw}$message${txtrst}"
+    elif [ "$message_type" -eq 3 ]; then
+        printf "${bldred}$message${txtrst}"
+    elif [ "$message_type" -eq 4 ]; then
+        printf "${bldgrn}========== ${bakgrn}$message${txtrst} ${bldgrn}========== ${txtrst}"
+    else
+        echo "Tipo de mensaje no válido. Usa 1 o 2."
+    fi
+	printf "\n"
+}
+
+command_menu() {
+    local commands=("${!1}")  # Recibir lista de comandos como referencia
+
+    # Lista de iconos asignados automáticamente (se repetirá si hay más comandos)
+    local icons=("🤖" "🐛" "👽" "🔥" "🚀" "🎸" "📌" "⚡️" "💡" "🏹" "💄" "💍")
+
+    local keys=()
+    local values=()
+    local num_commands=${#commands[@]}
+    local num_icons=${#icons[@]}
+
+    # Asignar iconos automáticamente, repitiéndolos si es necesario
+    for ((i = 0; i < num_commands; i++)); do
+        keys+=("$((i+1))")  # Generar los números de opción
+        local icon="${icons[$((i % num_icons))]}"  # Usar icono, repitiéndolos si es necesario
+        values+=("$icon ${commands[$i]}")  # Asignar el icono al comando
+    done
+
+    # Agregar opción de salida
+    keys+=("$((${num_commands} + 1))")
+    values+=("🏹 exit")
+
+    # Mostrar menú con colores
+    _array_as_json_colors keys values
+
+    # Solicitar la opción al usuario
+    printf "\n"
+    printf "%s" "$(_generate_message 2 '📌 SELECT A COMMAND: ')"
+    read -r option
+
+    # Validar si el usuario quiere salir
+    if [[ "$option" == "${keys[-1]}" ]]; then
+        echo "$(_generate_message 3 'Bye... 😉')"
+        return
+    elif [[ ! " ${keys[*]} " =~ " ${option} " ]]; then
+        echo "$(_generate_message 3 'Invalid option. 🤮')"
+        return
+    fi
+
+    # Obtener el comando seleccionado (quitando el icono)
+    local command="${commands[$((option-1))]}"
+
+    # Mostrar el comando seleccionado
+    command_keys=("COMMAND")
+    command_values=("$command")
+    _array_as_json_colors command_keys command_values
+
+    # Ejecutar el comando
+    eval "$command"
 }

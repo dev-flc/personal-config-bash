@@ -1,5 +1,44 @@
 #!/bin/bash
 
+# ========= Funcion para instalar paquetes ==========
+install_packages() {
+    shift
+    local packages=("$@")
+    local keys=()
+    local values=()
+
+    for package in "${packages[@]}"; do
+        case "$package" in
+            "brew")
+                if ! command -v brew &> /dev/null; then
+                    echo "Procediendo a instalar Homebrew..."
+                    test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
+                    test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+                    echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >> ~/.bashrc
+                else
+                    keys+=("Homebrew")
+                    values+=("✔")
+                fi
+                ;;
+            "oh-my-posh")
+                if ! command -v oh-my-posh &> /dev/null; then
+                    echo "Procediendo a instalar Oh My Zsh..."
+                    brew install jandedobbeleer/oh-my-posh/oh-my-posh
+                else
+                    keys+=("oh-my-posh")
+                    values+=("✔")
+                fi
+                ;;
+            *)
+                echo "Paquete '$package' no reconocido. Omitiendo..."
+                ;;
+    	esac
+    done
+
+    echo 1 "Paquetes Instalados"
+}
+
+
 customize_shell_config() {
   local NAME_USER="$1"
   local NEW_NAME=".dev-flc"
@@ -41,6 +80,7 @@ customize_shell_config() {
 
   if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     local FILES=(
+      "$HOME/.configuration/src/main.sh"
       "$HOME/.bashrc"
       "$HOME/.profile"
       "$HOME/.bash_profile"
@@ -100,6 +140,7 @@ customize_shell_config() {
   echo -e "\n${COLOR_GREEN}{ I N S T A L L : S U C C E S S F U L L Y 👻 }${COLOR_RESET}"
 }
 
+install_packages "brew" "oh-my-posh"
 
 
 read -p "Do you want to create a custom user? (Y/N):" appy_user

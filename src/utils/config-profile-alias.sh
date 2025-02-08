@@ -1,5 +1,19 @@
 #!/bin/bash
 
+commands_java=(
+    "./gradlew bootRun"
+    "./gradlew checkstyleMain"
+    "./gradlew test"
+    "./gradlew jacocoTestReport"
+    "./gradlew clean"
+    "./gradlew clean build"
+    "./gradlew clean build --refresh-dependencies"
+)
+commands_kubernetes=(
+"kubectl apply -f deployment.yaml"
+"kubectl delete -f deployment.yaml"
+)
+
 # S Y S T E M
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -15,19 +29,19 @@ alias la='ls -A'
 alias reload='source ~/.bashrc'
 alias configbash='code ~/.bashrc'
 alias configbashwin='code /etc/bash.bashrc'
-alias suspend='systemctl suspend'
 
 # N P M
 alias dev='npm run dev'
-alias devwin='npm run dev:win'
 alias start="npm start"
 alias build="npm run build"
-alias buildwin="npm run build:win"
 
 # J A V A
 alias jclean='./gradlew clean build --refresh-dependencies'
 alias jbuild='./gradlew clean build'
 alias jrun='./gradlew bootRun'
+alias jv='command_menu commands_java[@]'
+
+alias kb='command_menu commands_kubernetes[@]'
 
 # D O C K E R
 alias initdocker='sudo systemctl start docker'
@@ -37,11 +51,7 @@ alias dockerpush=dockerpush
 
 
 # D I R E C T O R Y
-alias projects="cd ${HOME}/Documentos/projects"
-alias vault="cd ${HOME}/Documentos/projects/gnp/gke-gnp-test-vault-secret"
-alias gnp="cd ${HOME}/Documentos/projects/gnp"
-alias example="cd ${HOME}/Documentos/projects/exmaple"
-alias projectswin="cd ${HOME}/Documents/projects"
+alias pj="cd ${HOME}/projects"
 
 
 # G I T
